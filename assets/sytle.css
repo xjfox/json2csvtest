@@ -1,0 +1,9 @@
+.json-container,
+.result-container {
+  padding: 1.5rem 0;
+}
+
+#input-filename {
+  display: inline-block;
+  width: 50%;
+}
