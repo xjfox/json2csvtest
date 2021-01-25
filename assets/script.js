@@ -73,8 +73,6 @@ window.onload = function () {
     csvHeader = getHeader(data)
     csvBody = getBody(data, csvHeader)
     csvPlainText = getPlainText(csvHeader, csvBody)
-    renderResult()
-    resultSuccessWrapper.classList.remove('d-none')
   }
 
   const handleClear = (e, exceptJsonValue) => {
@@ -104,6 +102,8 @@ window.onload = function () {
     try {
       handleClear(e, true)
       converterCsv(data)
+      renderResult()
+      resultSuccessWrapper.classList.remove('d-none')
     } catch (err) {
       resultSuccessWrapper.classList.add('d-none')
       resultFailedWrapper.classList.remove('d-none')
