@@ -41,18 +41,18 @@ window.onload = function () {
     return plainText
   }
 
+  const converterCsv = (data) => {
+    csvHeader = getHeader(data)
+    csvBody = getBody(data, csvHeader)
+    csvPlainText = getPlainText(csvHeader, csvBody)
+  }
+
   const renderResult = () => {
     const tableHead = inputWithHeader.checked ? `<thead><tr>${csvHeader.map(h => `<th>${h}</th>`).join('')}</tr><thead>` : ''
     const tableBody = `<tbody>${csvBody.map(b => `<tr>${b.map(i => `<td>${i}</td>`).join('')}</tr>`).join('')}</tbody>`
     const tableResult = `<table class="table table-sm">${tableHead}${tableBody}</table>`
     tableResultWrapper.innerHTML = tableResult
     plainTextResult.innerHTML = csvPlainText
-  }
-
-  const converterCsv = (data) => {
-    csvHeader = getHeader(data)
-    csvBody = getBody(data, csvHeader)
-    csvPlainText = getPlainText(csvHeader, csvBody)
   }
 
   const handleClear = (e, exceptJsonValue) => {
