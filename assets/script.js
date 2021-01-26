@@ -17,11 +17,7 @@ window.onload = function () {
   let csvPlainText = ''
 
   const getRow = (item, header) => {
-    const row = []
-    header.forEach(h => {
-      row.push(item[h] !== undefined ? item[h] : '')
-    })
-    return row
+    return header.map(h => item[h] !== undefined ? item[h] : '')
   }
 
   const getBody = (data, header) => {
@@ -32,7 +28,7 @@ window.onload = function () {
 
   const getHeader = (data) => {
     return Array.isArray(data)
-      ? [...new Set(data.reduce((dict, item) => ({ ...dict, ...Object.keys(item) }), {}))]
+      ? [...new Set(data.reduce((dict, item) => ([ ...dict, ...Object.keys(item) ]), []))]
       : Object.keys(data)
   }
 
@@ -108,26 +104,25 @@ window.onload = function () {
     document.body.removeChild(a)
   }
 
+  const toggleVisibilityContent = (options) => {
+    const { btnActive, containerActive, btnInactive, containerInactive } = options
+
+    btnInactive.classList.remove('btn-primary')
+    btnInactive.classList.add('btn-outline-primary')
+
+    btnActive.classList.remove('btn-outline-primary')
+    btnActive.classList.add('btn-primary')
+
+    containerInactive.classList.add('d-none')
+    containerActive.classList.remove('d-none')
+  }
+
   const handleShowTable = (e) => {
-    btnShowTable.classList.remove('btn-outline-primary')
-    btnShowTable.classList.add('btn-primary')
-
-    btnShowPlainText.classList.remove('btn-primary')
-    btnShowPlainText.classList.add('btn-outline-primary')
-
-    plainTextResult.classList.add('d-none')
-    tableResultWrapper.classList.remove('d-none')
+    toggleVisibilityContent({ btnActive: btnShowTable, containerActive: tableResultWrapper, btnInactive: btnShowPlainText, containerInactive: plainTextResult })
   }
 
   const handleShowPlainText = (e) => {
-    btnShowTable.classList.remove('btn-primary')
-    btnShowTable.classList.add('btn-outline-primary')
-
-    btnShowPlainText.classList.remove('btn-outline-primary')
-    btnShowPlainText.classList.add('btn-primary')
-
-    tableResultWrapper.classList.add('d-none')
-    plainTextResult.classList.remove('d-none')
+    toggleVisibilityContent({ btnActive: btnShowPlainText, containerActive: plainTextResult, btnInactive: btnShowTable, containerInactive: tableResultWrapper })
   }
 
   formJson.addEventListener('submit', handleSubmit)
