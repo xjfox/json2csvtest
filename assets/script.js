@@ -16,6 +16,10 @@ window.onload = function () {
   let csvBody = []
   let csvPlainText = ''
 
+  Array.prototype.sMap = function (callback) {
+    return this.map(callback).join('')
+  }
+
   const getRow = (item, header) => {
     return header.map(h => item[h] !== undefined ? item[h] : '')
   }
@@ -48,8 +52,8 @@ window.onload = function () {
   }
 
   const renderResult = () => {
-    const tableHead = inputWithHeader.checked ? `<thead><tr>${csvHeader.map(h => `<th>${h}</th>`).join('')}</tr><thead>` : ''
-    const tableBody = `<tbody>${csvBody.map(b => `<tr>${b.map(i => `<td>${i}</td>`).join('')}</tr>`).join('')}</tbody>`
+    const tableHead = inputWithHeader.checked ? `<thead><tr>${csvHeader.sMap(h => `<th>${h}</th>`)}</tr><thead>` : ''
+    const tableBody = `<tbody>${csvBody.sMap(b => `<tr>${b.sMap(i => `<td>${i}</td>`)}</tr>`)}</tbody>`
     const tableResult = `<table class="table table-sm">${tableHead}${tableBody}</table>`
     tableResultWrapper.innerHTML = tableResult
     plainTextResult.innerHTML = csvPlainText
