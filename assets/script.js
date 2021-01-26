@@ -25,40 +25,24 @@ window.onload = function () {
   }
 
   const getBody = (data, header) => {
-    const body = []
-    if (Array.isArray(data)) {
-      data.forEach(item => {
-        body.push(getRow(item, header))
-      })
-    } else {
-      body.push(getRow(data, header))
-    }
-    return body
+    return Array.isArray(data)
+      ? data.map(item => getRow(item, header))
+      : [getRow(data, header)]
+  }
+
+  const getHeader = (data) => {
+    return Array.isArray(data)
+      ? [...new Set(data.reduce((dict, item) => ({ ...dict, ...Object.keys(item) }), {}))]
+      : Object.keys(data)
   }
 
   const getPlainText = (header, body) => {
     let plainText = ''
-
     if (inputWithHeader.checked) {
       plainText += `${header.join(',')}\r\n`
-    }
-    
+    }    
     plainText += `${body.map(b => b.join(',')).join('\r\n')}`
-
     return plainText
-  }
-
-  const getHeader = (data) => {
-    let header  = []
-    if (Array.isArray(data)) {
-      data.forEach((item) => {
-        const keys = Object.keys(item)
-        header = [...new Set([...header, ...keys])]
-      })
-    } else {
-      header = Object.keys(data)
-    }
-    return header
   }
 
   const renderResult = () => {
